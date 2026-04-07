@@ -1,12 +1,15 @@
 # Casos de uso
 Cadastro:
--medico
--paciente
+
+- medico
+- paciente
 
 
-#medico:
--emitir receita
--cancelar receita
+medico:
+- emitir receita
+
+- cancelar receita
+
 - assinar
 - ver historico de receitas
 
