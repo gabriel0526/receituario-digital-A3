@@ -3,7 +3,8 @@ Cadastro:
 -medico
 -paciente
 
-medico:
+
+#medico:
 -emitir receita
 -cancelar receita
 - assinar
