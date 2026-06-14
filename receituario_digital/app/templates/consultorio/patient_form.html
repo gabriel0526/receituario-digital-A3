@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>{{ 'Editar paciente' if patient else 'Novo paciente' }}</h1>
+        <p>Dados cadastrais, histórico médico e vínculo com o funcionário.</p>
+    </div>
+</header>
+
+<form method="post" class="form">
+    <div class="grid-2">
+        <label>Nome completo<input name="full_name" required value="{{ patient.full_name if patient else '' }}"></label>
+        <label>CPF<input name="cpf" required value="{{ patient.cpf if patient else '' }}"></label>
+        <label>Data de nascimento<input type="date" name="birth_date" required value="{{ patient.birth_date.isoformat() if patient else '' }}"></label>
+        <label>Sexo
+            <select name="sex" required>
+                {% for option in ['Feminino', 'Masculino', 'Outro', 'Não informado'] %}
+                    <option value="{{ option }}" {% if patient and patient.sex == option %}selected{% endif %}>{{ option }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Médico responsável
+            <select name="assigned_doctor_id">
+                <option value="">Sem vínculo</option>
+                {% for doctor in doctors %}
+                    <option value="{{ doctor.id }}" {% if patient and patient.assigned_doctor_id == doctor.id %}selected{% endif %}>{{ doctor.name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Endereço<input name="address" required value="{{ patient.address if patient else '' }}"></label>
+    </div>
+    <label>Histórico médico<textarea name="medical_history" rows="4">{{ patient.medical_history if patient else '' }}</textarea></label>
+
+    {% if not patient %}
+        <h2>Login do paciente</h2>
+        <div class="grid-2">
+            <label>E-mail<input type="email" name="email"></label>
+            <label>Senha<input type="password" name="password"></label>
+        </div>
+    {% endif %}
+
+    <div class="form-actions">
+        <button type="submit">Salvar</button>
+        <a href="{{ url_for('consultorio.patients') }}">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

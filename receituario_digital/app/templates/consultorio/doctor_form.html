@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>{{ 'Editar médico' if doctor else 'Novo médico' }}</h1>
+        <p>Informe os dados profissionais e, opcionalmente, crie o login do funcionário.</p>
+    </div>
+</header>
+
+<form method="post" class="form">
+    <div class="grid-2">
+        <label>Nome<input name="name" required value="{{ doctor.name if doctor else '' }}"></label>
+        <label>CRM<input name="crm" required value="{{ doctor.crm if doctor else '' }}"></label>
+        <label>Especialidade<input name="specialty" required value="{{ doctor.specialty if doctor else '' }}"></label>
+        <label>UF do CRM<input name="crm_uf" required maxlength="2" value="{{ doctor.crm_uf if doctor else '' }}"></label>
+    </div>
+    <label>Certificado digital<input name="digital_certificate" value="{{ doctor.digital_certificate if doctor else '' }}"></label>
+
+    {% if not doctor %}
+        <h2>Login do funcionário</h2>
+        <div class="grid-2">
+            <label>E-mail<input type="email" name="email"></label>
+            <label>Senha<input type="password" name="password"></label>
+        </div>
+    {% endif %}
+
+    <div class="form-actions">
+        <button type="submit">Salvar</button>
+        <a href="{{ url_for('consultorio.doctors') }}">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

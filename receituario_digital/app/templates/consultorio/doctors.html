@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>Médicos</h1>
+        <p>Funcionários habilitados para registrar atendimentos e emitir receitas.</p>
+    </div>
+    <a class="button" href="{{ url_for('consultorio.doctor_create') }}">Novo médico</a>
+</header>
+
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CRM</th>
+                <th>UF</th>
+                <th>Especialidade</th>
+                <th>Certificado</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doctor in doctors %}
+                <tr>
+                    <td>{{ doctor.name }}</td>
+                    <td>{{ doctor.crm }}</td>
+                    <td>{{ doctor.crm_uf }}</td>
+                    <td>{{ doctor.specialty }}</td>
+                    <td>{{ doctor.digital_certificate or '-' }}</td>
+                    <td class="actions">
+                        <a href="{{ url_for('consultorio.doctor_edit', doctor_id=doctor.id) }}">Editar</a>
+                        <form method="post" action="{{ url_for('consultorio.doctor_delete', doctor_id=doctor.id) }}">
+                            <button type="submit" class="link danger">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="6">Nenhum médico cadastrado.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

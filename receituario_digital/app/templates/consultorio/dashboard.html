@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>Área do consultório</h1>
+        <p>Cadastre médicos, pacientes, medicamentos e vincule pacientes aos funcionários.</p>
+    </div>
+</header>
+
+<section class="stats-grid">
+    <article><strong>{{ stats.doctors }}</strong><span>Médicos</span></article>
+    <article><strong>{{ stats.patients }}</strong><span>Pacientes</span></article>
+    <article><strong>{{ stats.medications }}</strong><span>Medicamentos</span></article>
+    <article><strong>{{ stats.appointments }}</strong><span>Atendimentos</span></article>
+    <article><strong>{{ stats.prescriptions }}</strong><span>Receitas</span></article>
+</section>
+{% endblock %}

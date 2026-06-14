@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>Relatórios</h1>
+        <p>Resumo de atendimentos e receitas por período.</p>
+    </div>
+</header>
+
+<form method="get" class="filters">
+    <label>Início<input type="date" name="start" value="{{ start or '' }}"></label>
+    <label>Fim<input type="date" name="end" value="{{ end or '' }}"></label>
+    <button type="submit">Filtrar</button>
+    <a href="{{ url_for('funcionario.reports') }}">Limpar</a>
+</form>
+
+<section class="stats-grid">
+    <article><strong>{{ appointments|length }}</strong><span>Atendimentos</span></article>
+    <article><strong>{{ prescriptions|length }}</strong><span>Receitas</span></article>
+</section>
+
+<h2>Atendimentos</h2>
+<div class="table-wrap">
+    <table>
+        <thead><tr><th>Data</th><th>Paciente</th><th>Consultório</th></tr></thead>
+        <tbody>
+            {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment.appointment_at.strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td>{{ appointment.patient.full_name }}</td>
+                    <td>{{ appointment.clinic_name }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="3">Sem atendimentos no período.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<h2>Receitas</h2>
+<div class="table-wrap">
+    <table>
+        <thead><tr><th>Data</th><th>Paciente</th><th>Medicamento</th><th>Duração</th></tr></thead>
+        <tbody>
+            {% for prescription in prescriptions %}
+                <tr>
+                    <td>{{ prescription.issued_at.strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td>{{ prescription.patient.full_name }}</td>
+                    <td>{{ prescription.medication.commercial_name }}</td>
+                    <td>{{ prescription.treatment_duration }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="4">Sem receitas no período.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

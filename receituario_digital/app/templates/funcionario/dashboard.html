@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>Área do funcionário</h1>
+        <p>Registre atendimentos, emita receitas e acompanhe seus relatórios.</p>
+    </div>
+    <a class="button" href="{{ url_for('funcionario.prescription_create') }}">Nova receita</a>
+</header>
+
+<section class="stats-grid">
+    <article><strong>{{ stats.patients }}</strong><span>Pacientes vinculados</span></article>
+    <article><strong>{{ stats.appointments }}</strong><span>Atendimentos</span></article>
+    <article><strong>{{ stats.prescriptions }}</strong><span>Receitas emitidas</span></article>
+</section>
+{% endblock %}

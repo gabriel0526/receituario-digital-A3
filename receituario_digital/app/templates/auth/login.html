@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="auth-panel">
+    <h1>Acesso ao sistema</h1>
+    <p>Entre para acessar receitas, atendimentos e cadastros.</p>
+    <form method="post" class="form compact">
+        <label>
+            E-mail
+            <input type="email" name="email" required autofocus>
+        </label>
+        <label>
+            Senha
+            <input type="password" name="password" required>
+        </label>
+        <button type="submit">Entrar</button>
+    </form>
+</section>
+{% endblock %}

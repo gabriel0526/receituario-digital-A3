@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>Minhas receitas</h1>
+        <p>Receitas emitidas pelos médicos do consultório.</p>
+    </div>
+</header>
+
+<section class="prescription-list">
+    {% for prescription in prescriptions %}
+        <article class="prescription-card">
+            <header>
+                <div>
+                    <h2>{{ prescription.medication.commercial_name }}</h2>
+                    <span>{{ prescription.medication.active_ingredient }}</span>
+                </div>
+                <strong>{{ prescription.issued_at.strftime('%d/%m/%Y') }}</strong>
+            </header>
+            <dl>
+                <div><dt>Médico</dt><dd>{{ prescription.doctor.name }} - CRM {{ prescription.doctor.crm }}/{{ prescription.doctor.crm_uf }}</dd></div>
+                <div><dt>Consultório</dt><dd>{{ prescription.clinic_name }}</dd></div>
+                <div><dt>Dosagem</dt><dd>{{ prescription.dosage }}</dd></div>
+                <div><dt>Frequência</dt><dd>{{ prescription.frequency }}</dd></div>
+                <div><dt>Duração</dt><dd>{{ prescription.treatment_duration }}</dd></div>
+                <div><dt>Observações</dt><dd>{{ prescription.observations or '-' }}</dd></div>
+            </dl>
+        </article>
+    {% else %}
+        <p>Nenhuma receita disponível.</p>
+    {% endfor %}
+</section>
+{% endblock %}

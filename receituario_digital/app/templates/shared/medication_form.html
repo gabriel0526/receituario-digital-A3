@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>{{ 'Editar medicamento' if medication else 'Novo medicamento' }}</h1>
+        <p>Dados farmacológicos e categoria de controle.</p>
+    </div>
+</header>
+
+<form method="post" class="form">
+    <div class="grid-2">
+        <label>Nome comercial<input name="commercial_name" required value="{{ medication.commercial_name if medication else '' }}"></label>
+        <label>Princípio ativo<input name="active_ingredient" required value="{{ medication.active_ingredient if medication else '' }}"></label>
+        <label>Dosagem<input name="dosage" required value="{{ medication.dosage if medication else '' }}"></label>
+        <label>Forma farmacêutica<input name="pharmaceutical_form" required value="{{ medication.pharmaceutical_form if medication else '' }}"></label>
+        <label>Categoria de controle<input name="control_category" required value="{{ medication.control_category if medication else '' }}"></label>
+        <label>Emissão da receita<input name="prescription_issuance" required value="{{ medication.prescription_issuance if medication else '' }}"></label>
+    </div>
+    <div class="form-actions">
+        <button type="submit">Salvar</button>
+        <a href="{{ url_for('funcionario.medications') }}">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

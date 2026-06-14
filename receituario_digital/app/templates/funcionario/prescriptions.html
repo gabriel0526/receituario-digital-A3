@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>Receitas</h1>
+        <p>Receitas emitidas por você para seus pacientes.</p>
+    </div>
+    <a class="button" href="{{ url_for('funcionario.prescription_create') }}">Nova receita</a>
+</header>
+
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Paciente</th>
+                <th>Medicamento</th>
+                <th>Dosagem</th>
+                <th>Frequência</th>
+                <th>Duração</th>
+                <th>Emissão</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prescription in prescriptions %}
+                <tr>
+                    <td>{{ prescription.patient.full_name }}</td>
+                    <td>{{ prescription.medication.commercial_name }}</td>
+                    <td>{{ prescription.dosage }}</td>
+                    <td>{{ prescription.frequency }}</td>
+                    <td>{{ prescription.treatment_duration }}</td>
+                    <td>{{ prescription.issued_at.strftime('%d/%m/%Y %H:%M') }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="6">Nenhuma receita emitida.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

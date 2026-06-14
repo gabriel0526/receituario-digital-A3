@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>Área do paciente</h1>
+        <p>Consulte suas receitas e seu histórico de atendimentos.</p>
+    </div>
+</header>
+
+<section class="stats-grid">
+    <article><strong>{{ stats.prescriptions }}</strong><span>Receitas disponíveis</span></article>
+    <article><strong>{{ stats.appointments }}</strong><span>Atendimentos registrados</span></article>
+</section>
+{% endblock %}

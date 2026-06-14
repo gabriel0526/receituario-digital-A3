@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Receituário Digital</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <aside class="sidebar">
+        <a class="brand" href="{{ url_for('shared.dashboard') }}">Receituário Digital</a>
+        {% if current_user.is_authenticated %}
+            <div class="user-box">
+                <strong>{{ current_user.name }}</strong>
+                <span>{{ current_user.role|capitalize }}</span>
+            </div>
+            <nav>
+                <a href="{{ url_for('shared.dashboard') }}">Painel</a>
+                {% if current_user.role == 'consultorio' %}
+                    <a href="{{ url_for('consultorio.doctors') }}">Médicos</a>
+                    <a href="{{ url_for('consultorio.patients') }}">Pacientes</a>
+                    <a href="{{ url_for('funcionario.medications') }}">Medicamentos</a>
+                {% elif current_user.role == 'funcionario' %}
+                    <a href="{{ url_for('funcionario.appointments') }}">Atendimentos</a>
+                    <a href="{{ url_for('funcionario.prescriptions') }}">Receitas</a>
+                    <a href="{{ url_for('funcionario.medications') }}">Medicamentos</a>
+                    <a href="{{ url_for('funcionario.reports') }}">Relatórios</a>
+                {% elif current_user.role == 'paciente' %}
+                    <a href="{{ url_for('paciente.prescriptions') }}">Minhas receitas</a>
+                    <a href="{{ url_for('paciente.appointments') }}">Meus atendimentos</a>
+                {% endif %}
+                <a href="{{ url_for('auth.logout') }}">Sair</a>
+            </nav>
+        {% endif %}
+    </aside>
+    <main class="content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alerts">
+                    {% for category, message in messages %}
+                        <div class="alert {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

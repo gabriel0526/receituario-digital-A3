@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>Atendimentos</h1>
+        <p>Histórico de consultas registradas para seus pacientes.</p>
+    </div>
+    <a class="button" href="{{ url_for('funcionario.appointment_create') }}">Novo atendimento</a>
+</header>
+
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Paciente</th>
+                <th>Data/hora</th>
+                <th>Consultório</th>
+                <th>Observações</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment.patient.full_name }}</td>
+                    <td>{{ appointment.appointment_at.strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td>{{ appointment.clinic_name }}</td>
+                    <td>{{ appointment.notes or '-' }}</td>
+                    <td class="actions">
+                        <a href="{{ url_for('funcionario.appointment_edit', appointment_id=appointment.id) }}">Editar</a>
+                        <form method="post" action="{{ url_for('funcionario.appointment_delete', appointment_id=appointment.id) }}">
+                            <button type="submit" class="link danger">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="5">Nenhum atendimento registrado.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

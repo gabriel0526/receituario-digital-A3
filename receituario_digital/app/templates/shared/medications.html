@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>Medicamentos</h1>
+        <p>Catálogo usado na emissão das receitas.</p>
+    </div>
+    <a class="button" href="{{ url_for('funcionario.medication_create') }}">Novo medicamento</a>
+</header>
+
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Nome comercial</th>
+                <th>Princípio ativo</th>
+                <th>Dosagem</th>
+                <th>Forma</th>
+                <th>Controle</th>
+                <th>Emissão</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medication in medications %}
+                <tr>
+                    <td>{{ medication.commercial_name }}</td>
+                    <td>{{ medication.active_ingredient }}</td>
+                    <td>{{ medication.dosage }}</td>
+                    <td>{{ medication.pharmaceutical_form }}</td>
+                    <td>{{ medication.control_category }}</td>
+                    <td>{{ medication.prescription_issuance }}</td>
+                    <td class="actions">
+                        <a href="{{ url_for('funcionario.medication_edit', medication_id=medication.id) }}">Editar</a>
+                        <form method="post" action="{{ url_for('funcionario.medication_delete', medication_id=medication.id) }}">
+                            <button type="submit" class="link danger">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="7">Nenhum medicamento cadastrado.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

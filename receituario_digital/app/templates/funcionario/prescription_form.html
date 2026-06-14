@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>Nova receita</h1>
+        <p>Preencha os dados da prescrição e do atendimento.</p>
+    </div>
+</header>
+
+<form method="post" class="form">
+    <div class="notice">Médico: <strong>{{ doctor.name if doctor else current_user.name }}</strong></div>
+
+    <label>Usar atendimento já registrado
+        <select name="appointment_id">
+            <option value="">Criar novo atendimento com esta receita</option>
+            {% for appointment in appointments %}
+                <option value="{{ appointment.id }}">{{ appointment.appointment_at.strftime('%d/%m/%Y %H:%M') }} - {{ appointment.patient.full_name }} - {{ appointment.clinic_name }}</option>
+            {% endfor %}
+        </select>
+    </label>
+
+    <div class="grid-2">
+        <label>Nome do paciente
+            <select name="patient_id">
+                {% for patient in patients %}
+                    <option value="{{ patient.id }}">{{ patient.full_name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Data/hora do atendimento<input type="datetime-local" name="appointment_at"></label>
+        <label>Nome do consultório<input name="clinic_name"></label>
+        <label>Medicamento
+            <select name="medication_id" required>
+                {% for medication in medications %}
+                    <option value="{{ medication.id }}">{{ medication.commercial_name }} - {{ medication.dosage }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Dosagem<input name="dosage" required></label>
+        <label>Frequência<input name="frequency" required placeholder="Ex.: 8/8 horas"></label>
+        <label>Duração do tratamento<input name="treatment_duration" required placeholder="Ex.: 7 dias"></label>
+    </div>
+    <label>Observações<textarea name="observations" rows="4"></textarea></label>
+    <label>Observações do atendimento<textarea name="appointment_notes" rows="3"></textarea></label>
+
+    <div class="form-actions">
+        <button type="submit">Emitir receita</button>
+        <a href="{{ url_for('funcionario.prescriptions') }}">Cancelar</a>
+    </div>
+</form>
+
+<script>
+    const appointmentSelect = document.querySelector('[name="appointment_id"]');
+    const patientSelect = document.querySelector('[name="patient_id"]');
+    const appointmentAt = document.querySelector('[name="appointment_at"]');
+    const clinicName = document.querySelector('[name="clinic_name"]');
+
+    function syncRequiredFields() {
+        const creatingAppointment = appointmentSelect.value === "";
+        patientSelect.required = creatingAppointment;
+        appointmentAt.required = creatingAppointment;
+        clinicName.required = creatingAppointment;
+    }
+
+    appointmentSelect.addEventListener("change", syncRequiredFields);
+    syncRequiredFields();
+</script>
+{% endblock %}

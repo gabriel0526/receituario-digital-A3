@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>{{ 'Editar atendimento' if appointment else 'Novo atendimento' }}</h1>
+        <p>Registro de consulta associada ao médico logado.</p>
+    </div>
+</header>
+
+<form method="post" class="form">
+    <div class="grid-2">
+        <label>Paciente
+            <select name="patient_id" required>
+                {% for patient in patients %}
+                    <option value="{{ patient.id }}" {% if appointment and appointment.patient_id == patient.id %}selected{% endif %}>{{ patient.full_name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Data/hora do atendimento
+            <input type="datetime-local" name="appointment_at" required value="{{ appointment.appointment_at.strftime('%Y-%m-%dT%H:%M') if appointment else '' }}">
+        </label>
+        <label>Nome do consultório<input name="clinic_name" required value="{{ appointment.clinic_name if appointment else '' }}"></label>
+    </div>
+    <label>Observações<textarea name="notes" rows="4">{{ appointment.notes if appointment else '' }}</textarea></label>
+    <div class="form-actions">
+        <button type="submit">Salvar</button>
+        <a href="{{ url_for('funcionario.appointments') }}">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

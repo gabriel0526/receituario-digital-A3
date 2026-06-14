@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <h1>Pacientes</h1>
+        <p>Cadastre pacientes e demarque o funcionário responsável pelo atendimento.</p>
+    </div>
+    <a class="button" href="{{ url_for('consultorio.patient_create') }}">Novo paciente</a>
+</header>
+
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Nascimento</th>
+                <th>Sexo</th>
+                <th>Médico responsável</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patients %}
+                <tr>
+                    <td>{{ patient.full_name }}</td>
+                    <td>{{ patient.cpf }}</td>
+                    <td>{{ patient.birth_date.strftime('%d/%m/%Y') }}</td>
+                    <td>{{ patient.sex }}</td>
+                    <td>{{ patient.assigned_doctor.name if patient.assigned_doctor else '-' }}</td>
+                    <td class="actions">
+                        <a href="{{ url_for('consultorio.patient_edit', patient_id=patient.id) }}">Editar</a>
+                        <form method="post" action="{{ url_for('consultorio.patient_delete', patient_id=patient.id) }}">
+                            <button type="submit" class="link danger">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="6">Nenhum paciente cadastrado.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
